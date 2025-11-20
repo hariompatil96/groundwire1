@@ -1,0 +1,496 @@
+@import url('preflight.css');
+@import url('https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&display=swap');
+@import 'react-date-range/dist/styles.css';
+@import 'react-date-range/dist/theme/default.css';
+/**
+ * Custom base styles
+ */
+
+*:not([class^="Mui"]),
+*:not([class*=" Mui"]),
+::before:not([class^="Mui"]),
+::before:not([class*=" Mui"]),
+::after:not([class^="Mui"]),
+::after:not([class*=" Mui"]) {
+  border-style: solid;
+}
+
+#root [class^="border"],
+#root [class*="border"] {
+  border-style: solid !important;
+}
+
+:root {
+  --primary-font-family: "Fustat", sans-serif;
+  --primary-color: #018594;
+  /* font-size: 12px; */
+}
+
+* {
+  /* Text rendering */
+  text-rendering: optimizeLegibility;
+  -o-text-rendering: optimizeLegibility;
+  -ms-text-rendering: optimizeLegibility;
+  -moz-text-rendering: optimizeLegibility;
+  -webkit-text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+}
+
+* :focus {
+  outline: none !important;
+}
+
+html {
+  /* font-size: 62.5%; */
+  font-family: "Fustat", sans-serif;
+  background-color: #121212;
+}
+
+body {
+  font-size: 14px;
+  line-height: 1.3;
+  overflow-x: hidden;
+  font-feature-settings: "salt";
+  font-family: var(--primary-font-family);
+}
+
+html,
+body {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+html,
+body {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 0;
+  min-height: 100%;
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+#root {
+  display: flex;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+}
+
+h1,
+.h1 {
+  font-size: 24px;
+}
+
+h2,
+.h2 {
+  font-size: 20px;
+}
+
+h3,
+.h3 {
+  font-size: 16px;
+}
+
+h4,
+.h4 {
+  font-size: 15px;
+}
+
+h5,
+.h5 {
+  font-size: 13px;
+}
+
+h6,
+.h6 {
+  font-size: 12px;
+}
+
+.ps>.ps__rail-y,
+.ps>.ps__rail-x {
+  z-index: 99;
+}
+
+[dir="rtl"] .ps__thumb-y {
+  right: auto !important;
+  left: 2px !important;
+}
+
+[dir="rtl"] .ps>.ps__rail-y {
+  left: 0 !important;
+  right: auto !important;
+}
+
+a[role=button] {
+  text-decoration: none;
+}
+
+[role="tooltip"] {
+  z-index: 9999;
+}
+
+.MuiModal-root {
+  z-index: 9999;
+}
+
+/* Medium Devices, Desktops Only */
+@media only screen and (min-width: 992px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  ::-webkit-scrollbar:hover {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 20px;
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    border-radius: 20px;
+  }
+}
+
+form label {
+  z-index: 99;
+}
+
+body.no-animate *,
+body.no-animate *::before,
+body.no-animate *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Removes webkit's autofill backgorund color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transitionDelay: 9999s;
+  transitionProperty: background-color, color;
+}
+
+:focus {
+  outline-color: transparent;
+}
+
+/*fullcalendar Fix*/
+.fc-scrollgrid-section-liquid {
+  height: 1px !important;
+}
+
+/* Style for Droppable component */
+.Droppable {
+  border: 2px dashed #ccc;
+  padding: 30px 0;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.visibile_off {
+  visibility: hidden;
+}
+
+label {
+  text-transform: capitalize !important;
+}
+
+
+/* material-react-table */
+
+.material-react-table>div {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.gm-style-iw-chr button {
+  height: 30px !important;
+}
+
+.gm-style-iw-d {
+  max-height: 150px !important;
+}
+
+.gm-style-iw.gm-style-iw-c {
+  max-height: 200px !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.chartcount-item_bg {
+  height: 118px;
+  width: 118px;
+  background-color: #00b8f1;
+  z-index: 1;
+  position: absolute;
+  top: -75px;
+  right: -75px;
+  border-radius: 50%;
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.chartcount-item_link:hover .chartcount-item_bg {
+  -webkit-transform: scale(10);
+  -ms-transform: scale(10);
+  transform: scale(10);
+}
+
+.chartcount-item_link:hover h6,
+.chartcount-item_link:hover p {
+  color: #fff;
+}
+
+.material-react-table>div>div:first-child,
+.material-react-table>div>div:last-child {
+  background-color: #fff;
+  min-height: 6rem;
+}
+
+.material-react-table tr>th {
+  /* background-color: #04253d !important; */
+  background-color: #018594 !important;
+  color: #fff;
+}
+
+.material-react-table .MuiTableSortLabel-icon {
+  color: #fff !important;
+}
+
+.MuiCardContent-root:last-child {
+  padding-bottom: 16px;
+}
+
+.material-react-table>div>div>div:last-child {
+  position: static;
+  gap: 0;
+  align-items: center;
+}
+
+.material-react-table svg {
+  font-size: 18px;
+}
+
+.material-react-table .MuiTablePagination-root .MuiBox-root .MuiSelect-select.MuiSelect-standard.MuiInputBase-input.MuiInput-input {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 1.5rem;
+}
+
+.material-react-table .MuiTablePagination-root .MuiTypography-root.MuiTypography-body2.MuiTypography-alignCenter {
+  font-size: 1.5rem;
+}
+
+/* .material-react-table tbody tr {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .material-react-table tbody tr:hover {
+    transform: scale(0.5);
+    background-color: rgba(0, 123, 255, 0.1);
+  } */
+
+/* Button hover effects */
+.material-react-table .MuiIconButton-root {
+  transition: background-color 0.3s ease;
+}
+
+.material-react-table .MuiIconButton-root:hover {
+  background-color: #3499cc42;
+}
+
+/* Glowing effect on table borders */
+.material-react-table {
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 0 6px #3499cc40;
+}
+
+/* Hide spinner arrows for number input */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-card-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  /* Firefox */
+}
+
+.signin-section {
+  /* background: linear-gradient(90deg, #2484C6 0%, #00B8F1 100%);
+      */
+  /* position: relative; */
+  position: static;
+  left: 20%;
+  background-color: #ffffff9e;
+  border-radius: 20px;
+}
+
+/* file-drop css */
+
+.file-drop {
+  /* relatively position the container bc the contents are absolute */
+  position: relative;
+  height: 50px;
+  width: 100%;
+  border: 1px dashed #9c9c9c;
+  border-radius: 4px;
+}
+
+.file-drop>.file-drop-target {
+  /* basic styles */
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 2px;
+
+  /* horizontally and vertically center all content */
+  display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+
+  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+
+  align-items: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+
+  justify-content: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+
+  align-content: center;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+
+  text-align: center;
+}
+
+.file-drop>.file-drop-target.file-drop-dragging-over-frame {
+  /* overlay a black mask when dragging over the frame */
+  border: none;
+  /* background-color: rgba(0, 0, 0, 0.65); */
+  box-shadow: none;
+  z-index: 50;
+  opacity: 1;
+
+  /* typography */
+  /* color: white; */
+}
+
+.file-drop>.file-drop-target.file-drop-dragging-over-target {
+  /* turn stuff orange when we are dragging over the target */
+  background-color: #f9f9f9;
+  box-shadow: 2px 2px 2px #bfbfbf;
+}
+
+/* daterange picker */
+
+.daterangepicker .ranges li.active {
+  background-color: #2484c6;
+}
+
+.daterangepicker td.in-range {
+  background-color: #00b8f1;
+}
+
+.material-react-table .MuiTablePagination-root .MuiBox-root .MuiSelect-select.MuiSelect-standard.MuiInputBase-input.MuiInput-input {
+  font-size: 1rem;
+}
+
+.MuiTablePagination-root .MuiFormLabel-root {
+  padding-bottom: 18px !important;
+}
+
+.container {
+  max-width: none !important;
+}
+
+.material-react-table>div>div:first-child {
+  min-height: 4rem;
+}
+
+.p-color {
+  color: var(--primary-color);
+}
+
+.p-bg-color{
+    background-color: var(--primary-color);
+    color: white
+}
+
+.gm-style-iw-ch{
+  display: none;
+}
+
+.gm-style-iw-chr {
+  justify-content: end;
+  position: absolute;
+  right: 0;
+}
+
+.gm-style-iw-chr button {
+  width: 26px !important;
+}
+
+.gm-ui-hover-effect>span{
+  margin: 0 !important;
+}
+
+.gm-style .gm-style-iw-d {
+  padding-top: 16px;
+}
+
+/* Force fullscreen control to be visible in iframe */
+.gm-style .gm-fullscreen-control {
+  display: block !important;
+  visibility: visible !important;
+}
+
+.gm-style .gmnoprint {
+  display: block !important;
+}
+
+/* Make sure all map controls are visible */
+.gm-style .gm-bundled-control {
+  display: block !important;
+}
+
+/* Ensure the fullscreen button specifically shows */
+[data-control-position="1"] button,
+[data-control-position="2"] button {
+  display: block !important;
+}

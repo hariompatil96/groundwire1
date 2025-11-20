@@ -1,0 +1,70 @@
+.rdrDateRangePickerWrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    max-width: 550px;
+}
+
+.rdrDateRangePickerWrapper .rdrInputRanges {
+    display: none;
+}
+
+.rdrDateRangePickerWrapper .rdrStaticRanges {
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.rdrDateRangePickerWrapper .rdrDefinedRangesWrapper {
+    width: 100%;
+}
+
+.rdrDateRangePickerWrapper .rdrDateDisplayWrapper {
+    display: none;
+}
+
+.rdrDateRangePickerWrapper .rdrMonthAndYearWrapper {
+    padding-top: 5px;
+    height: 50px;
+}
+
+.rdrDateRangePickerWrapper .rdrStaticRangeLabel {
+    padding: 10px;
+}
+
+.rdrDateRangePickerWrapper .rdrMonth {
+    padding-bottom: 12px;
+}
+
+.rdrDateRangePickerWrapper .rdrMonthsHorizontal {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+
+}
+
+.rdrDateRangePickerWrapper .rdrMonth .rdrMonthName {
+    color: #018594;
+}
+
+.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon .MuiOutlinedInput-root {
+    padding-right: 50px;
+    padding-block: 0;
+}
+
+.date-range-input input{
+    padding: 7.5px 11px;
+}
+
+.rs-autocomplete .MuiAutocomplete-inputRoot {
+    padding: 0 39px 0 8px;
+}
+
+@media (max-width:950px){
+    .rdrDateRangePickerWrapper {
+        /* max-width: 300px; */
+        overflow: scroll;
+    }
+
+    .rdrStaticRanges{
+        overflow: scroll;
+        max-width: 330px;
+    }
+}
