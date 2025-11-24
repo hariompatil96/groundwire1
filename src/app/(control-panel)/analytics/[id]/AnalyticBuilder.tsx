@@ -1,4 +1,4 @@
-'use client';
+    'use client';
 
 import { Button, CircularProgress, IconButton } from "@mui/material";
 import { useDispatch } from "react-redux";
@@ -26,10 +26,7 @@ const schema = yup.object().shape({
         .nullable()
         .required("Platform is required")
         .typeError("Required"),
-    // impact: yup
-    //     .object()
-    //     .nullable()
-    //     .required("Impact selection is required."),
+    
     reportItems: yup
         .array()
         .of(
@@ -38,9 +35,7 @@ const schema = yup.object().shape({
         .min(1, "At least one report item must be selected.")
         .required("Report items are required."),
     colorScheme: yup.string().nullable(),
-    // highlightCountry: yup
-    //     .object()
-    //     .nullable().optional(),
+    
     embedOption: yup.string().required("Required"),
     width: yup
         .number()
@@ -70,14 +65,15 @@ function AnalyticBuilder(props) {
         resolver: yupResolver(schema),
         defaultValues: {
             platforms: { id: "All", name: "All" },
-            // impact: {},
+            
             reportItems: [],
             colorScheme: "",
             embedOption: "",
             highlightCountry: null,
             height: 600,
             width: 600,
-            state_name: null
+            state_name: null,
+            selectedEmbed: "1"
         },
     });
 
@@ -85,8 +81,6 @@ function AnalyticBuilder(props) {
     const { data, isLoading, error } = useFetch(id, `${API_ROUTES["getAnalyticByID"]}/${id}`, {}, {
         enabled: Boolean(id)
     });
-
-    console.log(errors)
 
     const { mutate: updateAnalyticMutate, isPending: updateAnalyticIsPending } = usePatch(`${API_ROUTES["updateAnalytic"]}/${id}`, {
         onSuccess: () => {
@@ -130,7 +124,7 @@ function AnalyticBuilder(props) {
         if (data) {
             setAnalyticData(() => data?.result)
             const fetchedData = data.result.data;
-            // setValue("impact", fetchedData?.impact || { id: 3, name: "Global" });
+            
             setValue("reportItems", fetchedData?.reportItems || [
                 { id: 1, name: 'Impressions' },
                 { id: 2, name: 'Website Views' },
@@ -143,6 +137,7 @@ function AnalyticBuilder(props) {
             setValue("width", fetchedData?.width || 600);
             setValue("height", fetchedData?.height || 600);
             setValue("state_name", fetchedData?.state_name || "");
+            setValue("selectedEmbed", fetchedData?.selectedEmbed || "1");
         }
     }, [data]);
 

@@ -10,7 +10,6 @@ import { useDispatch } from "react-redux";
 import { useDelete, useFetch } from "../../utils/hooks/useApi";
 import ConfirmationDialog from "../ConfirmationDialog";
 import { API_ROUTES } from "../../constants/api";
-// import { showMessage } from 'app/store/fuse/messageSlice';
 import { queryClient } from "src/app/App";
 import { get } from "lodash";
 import { keepPreviousData } from "@tanstack/react-query";
@@ -18,6 +17,7 @@ import ExporterTable from "./ExporterTable";
 import { motion } from "framer-motion";
 import { closeDialog, openDialog } from "@fuse/core/FuseDialog/fuseDialogSlice";
 import { showMessage } from "@fuse/core/FuseMessage/fuseMessageSlice";
+import { useTheme } from "@mui/material/styles"; 
 
 const tableIcons = {
   FilterListIcon: () => (
@@ -65,11 +65,12 @@ const rowVariants = {
 };
 
 const TableComponent = (props) => {
+  
   const {
     columns = [],
     rows,
     actions = [],
-    actionsType = "menu", // 'icons' | 'menu'
+    actionsType = "menu",
     slug = "item",
     querykey = "get-items",
     apiEndpointId = null,
@@ -87,35 +88,30 @@ const TableComponent = (props) => {
     setSearchQuery,
   } = props;
 
+  
   const [rowSelection, setRowSelection] = useState({});
   const dispatch = useDispatch();
   const [globalFilter, setGlobalFilter] = useState("");
+  const theme = useTheme(); 
 
-  // Handle API calls
+  
+  const isDarkMode = theme.palette.mode === "dark";
+
+  
   const { data, isLoading, isError, error } = useFetch(
     getAPIEndPiont ? querykey : "",
     apiEndpointId
       ? `${API_ROUTES[getAPIEndPiont]}/${apiEndpointId}`
       : API_ROUTES[getAPIEndPiont],
-    {
-      ...params,
-      ...(globalFilter && { search: globalFilter }),
-    },
-    {
-      enabled: Boolean(getAPIEndPiont),
-      placeholderData: keepPreviousData,
-    }
+    { ...params, ...(globalFilter && { search: globalFilter }) },
+    { enabled: Boolean(getAPIEndPiont), placeholderData: keepPreviousData }
   );
 
+  
   const { mutate: deleteMutation } = useDelete(API_ROUTES[DeleteAPIEndPiont], {
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [
-          querykey,
-          {
-            ...(globalFilter && { search: globalFilter }),
-          },
-        ],
+        queryKey: [querykey, { ...(globalFilter && { search: globalFilter }) }],
       });
       dispatch(closeDialog());
       dispatch(
@@ -123,10 +119,7 @@ const TableComponent = (props) => {
           messagetitle: `Delete ${slug}`,
           message: ` ${slug} has been successfully deleted.`,
           autoHideDuration: 5000,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "right",
-          },
+          anchorOrigin: { vertical: "top", horizontal: "right" },
           variant: "success",
         })
       );
@@ -136,16 +129,14 @@ const TableComponent = (props) => {
         showMessage({
           message: error ?? "Something went wrong",
           autoHideDuration: 5000,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "right",
-          },
+          anchorOrigin: { vertical: "top", horizontal: "right" },
           variant: "error",
         })
       );
     },
   });
 
+  
   const handleClickDelete = (data) => {
     dispatch(
       openDialog({
@@ -160,63 +151,42 @@ const TableComponent = (props) => {
     );
   };
 
+  
   const table = useMaterialReactTable({
     columns,
     data: (rows ?? get(data, "result", [])).sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     ),
     enableSortingRemoval: false,
-    sortingFns: {
-      caseInsensitive: caseInsensitiveSortingFn,
-    },
-
+    sortingFns: { caseInsensitive: caseInsensitiveSortingFn },
     initialState: {
       ...initialState,
       showGlobalFilter: true,
-      density: "spacious", //'comfortable' | 'compact' | 'spacious'
-      columnPinning: {
-        right: ["mrt-row-actions"],
-      },
+      density: "spacious",
+      columnPinning: { right: ["mrt-row-actions"] },
     },
     displayColumnDefOptions: {
-      "mrt-row-actions": {
-        header: "Actions", //change header text
-        size: 50, //make actions column wider
-        maxSize: 50,
-      },
+      "mrt-row-actions": { header: "Actions", size: 50, maxSize: 50 },
     },
 
-    // handle table current State
     state: {
-      ...(!rows && {
-        globalFilter: globalFilter,
-      }),
+      ...(!rows && { globalFilter: globalFilter }),
       rowSelection,
       isLoading: isLoading || isDataLoading,
     },
 
-    // handle table icons
     icons: tableIcons,
 
-    // handle column filter, move and grouping
     enableColumnFilterModes: false,
-
-    // handle column filter by column or grouping
     enableGrouping: false,
-
-    // handle column move or ordering
     enableColumnOrdering: false,
-
-    // handle column actions dot icon
     enableColumnActions: false,
     enableDensityToggle: false,
     enableFilters: false,
     enableHiding: false,
-
-    // handle column resizing
     enableColumnResizing: true,
-    layoutMode: "grid", // for getting rid of an extra space
-    columnResizeMode: "onChange", //default, onChange, onEnd
+    layoutMode: "grid",
+    columnResizeMode: "onChange",
     defaultColumn: {
       maxSize: 400,
       minSize: 100,
@@ -224,40 +194,26 @@ const TableComponent = (props) => {
       grow: true,
       sortingFn: "caseInsensitive",
     },
-    // handle serial number
-    // enableRowNumbers: true,
-    // displayColumnDefOptions: {
-    //   'mrt-row-numbers': {
-    //     muiTableHeadCellProps: {
-    //       children: 'S. No.', // Change the column header
-    //     },
-    //     size: 50,
-    //     minSize: 80
-    //   },
-    // },
 
-    // handle row selection
     enableRowSelection: enableRowSelection,
-    onRowSelectionChange: (newRowSelection) => {
-      setRowSelection(newRowSelection);
-    },
+    onRowSelectionChange: (newRowSelection) => setRowSelection(newRowSelection),
+
     getRowId: (row) => row?._id,
     positionToolbarAlertBanner: "none",
-
-    // handle row actions like edit/delete
     enableRowActions: (actions?.length || deleteAction) ?? false,
+
     [actionsType === "icons" ? "renderRowActions" : "renderRowActionMenuItems"]:
       ({ row, closeMenu }) => {
         const tableActions = deleteAction
           ? [
               ...actions,
               {
-                label: deleteAction?.label ? deleteAction?.label : "Delete",
+                label: deleteAction?.label ? deleteAction.label : "Delete",
                 onClick: deleteAction?.onClick
-                  ? deleteAction?.onClick
+                  ? deleteAction.onClick
                   : handleClickDelete,
                 isDisabled: deleteAction?.isDisabled
-                  ? deleteAction?.isDisabled
+                  ? deleteAction.isDisabled
                   : false,
                 icon: "material-solid:delete",
                 color: "#f00",
@@ -268,17 +224,17 @@ const TableComponent = (props) => {
         return tableActions.map((action, i) =>
           actionsType === "icons" ? (
             <Tooltip
+              key={`material-react-table-action-${action.label}-${i}`}
               title={action?.label}
-              key={`material-react-table-action-${action?.label}-${i}`}
             >
               <IconButton
                 onClick={() => {
-                  setTimeout(action?.onClick(row));
+                  setTimeout(action.onClick(row));
                 }}
-                disabled={action?.isDisabled ? action?.isDisabled(row) : false}
+                disabled={action?.isDisabled ? action.isDisabled(row) : false}
               >
                 <FuseSvgIcon
-                  sx={{ color: action?.color ? action?.color : "initial" }}
+                  sx={{ color: action?.color ? action.color : "initial" }}
                   size={22}
                 >
                   {action?.icon}
@@ -287,21 +243,21 @@ const TableComponent = (props) => {
             </Tooltip>
           ) : (
             <MenuItem
-              key={`material-react-table-action-${action?.label}-${i}`}
+              key={`material-react-table-action-${action.label}-${i}`}
               onClick={() => {
                 closeMenu();
-                setTimeout(action?.onClick(row));
+                setTimeout(action.onClick(row));
               }}
-              disabled={action?.isDisabled ? action?.isDisabled(row) : false}
+              disabled={action?.isDisabled ? action.isDisabled(row) : false}
             >
               <FuseSvgIcon
                 className="mr-8"
-                sx={{ color: action?.color ? action?.color : "initial" }}
+                sx={{ color: action?.color ? action.color : "initial" }}
                 size={18}
               >
-                {action?.icon}
+                {action.icon}
               </FuseSvgIcon>
-              {action?.label}
+              {action.label}
             </MenuItem>
           )
         );
@@ -316,10 +272,7 @@ const TableComponent = (props) => {
         </Box>
       ),
 
-    // handle full screen table toggle button
     enableFullScreenToggle: false,
-
-    // handle row searching
     enableGlobalFilterModes: true,
     positionGlobalFilter: "left",
 
@@ -331,7 +284,6 @@ const TableComponent = (props) => {
       },
     }),
 
-    // handle table paginations
     muiPaginationProps: {
       showRowsPerPage: true,
       shape: "rounded",
@@ -340,35 +292,35 @@ const TableComponent = (props) => {
     manualPagination: false,
     rowCount: rows?.length ?? get(data, "result", [])?.length,
 
-    // Update the table UI
-    // muiSearchTextFieldProps: {
-    //   placeholder: `Search`,
-    //   sx: { minWidth: '400px', minHeight:"5rem"},
-    //   variant: 'outlined',
-    // },
+    muiSearchTextFieldProps: {
+      placeholder: `Search`,
+      variant: "outlined",
+      th: 500,
+     
+      style: {
+        width: 300,
+        
+      },
 
-   muiSearchTextFieldProps: {
-  placeholder: `Search`,
-  sx: { 
-    minWidth: '400px', 
-    minHeight: "5rem",
-     "& .MuiOutlinedInput-root": {
-                        borderRadius: 20,
-                        
-                      },
-  },
-  variant: 'outlined',
-},
+
+     
+    },
 
     muiTableBodyProps: {
       className: "row-hover-shadow",
       sx: {
         "& tr > td": {
-          borderBottom: "0.1rem solid #e4e4e4",
+          borderBottom: isDarkMode
+            ? "0.1rem solid #444"
+            : "0.1rem solid #e4e4e4",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#fff",
+          backgroundColor: isDarkMode ? "#121212" : "#fff",
           fontSize: "18px",
+          color: isDarkMode ? "#e0e0e0" : "#000",
+        },
+        "& tr:hover > td": {
+          backgroundColor: isDarkMode ? "#1f1f1f" : "#f5f5f5",
         },
       },
     },
@@ -376,12 +328,19 @@ const TableComponent = (props) => {
     muiTableHeadProps: {
       sx: {
         "& tr > th": {
-          borderTop: "0.1rem solid #e4e4e4",
-          borderBottom: "0.1rem solid #e4e4e4",
-          backgroundColor: "#FF0000",
+          borderTop: isDarkMode ? "0.1rem solid #444" : "0.1rem solid #e4e4e4",
+          borderBottom: isDarkMode
+            ? "0.1rem solid #444"
+            : "0.1rem solid #e4e4e4",
+          backgroundColor: isDarkMode ? "#00796b" : "#008080",  
           paddingBottom: "10px",
           fontSize: "20px",
+          color: "#fff",
+          textAlign: "center",
+          userSelect: "none",
+          whiteSpace: "nowrap",
         },
+       
         "& tr > th > .Mui-TableHeadCell-Content > .Mui-TableHeadCell-Content-Labels":
           {
             width: "100%",
@@ -389,6 +348,7 @@ const TableComponent = (props) => {
             justifyContent: "center",
             alignItems: "center",
             fontSize: "20px",
+            color: "#fff",
           },
         "& tr > th > .Mui-TableHeadCell-Content > .Mui-TableHeadCell-Content-Actions > button":
           {
@@ -396,6 +356,7 @@ const TableComponent = (props) => {
             height: "auto",
             background: "none",
             fontSize: "20px",
+            color: "#fff",
           },
         "& tr > th > .Mui-TableHeadCell-Content > .Mui-TableHeadCell-ResizeHandle-Wrapper":
           {
@@ -404,6 +365,11 @@ const TableComponent = (props) => {
             margin: 0,
           },
       },
+    },
+
+    sx: {
+      backgroundColor: isDarkMode ? "#181818" : "#fff",
+      color: isDarkMode ? "#e0e0e0" : "inherit",
     },
   });
 
@@ -425,7 +391,13 @@ const TableComponent = (props) => {
 
   return (
     <motion.div variants={tableVariants} initial="hidden" animate="visible">
-      <Card className="w-full material-react-table bg-white rounded pt-8 px-8">
+      <Card
+        className="w-full material-react-table bg-white rounded pt-8 px-8"
+        sx={{
+          backgroundColor: isDarkMode ? "#121212" : "#fff",
+          color: isDarkMode ? "#fff" : "#000",
+        }}
+      >
         <MaterialReactTable table={table} />
       </Card>
     </motion.div>

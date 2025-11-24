@@ -26,7 +26,7 @@ const isIOSMobile = () => {
 const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
   const [reports, setReports] = useState([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [isFullscreenMap, setIsFullscreenMap] = useState(false); // Changed variable name
+  const [isFullscreenMap, setIsFullscreenMap] = useState(false); 
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const today = new Date();
@@ -56,7 +56,7 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
     reportsMutate({
       startDate: filter?.startDate,
       endDate: filter?.endDate,
-      // report_type: values?.impact?.name?.toLowerCase(),
+      
       platform: values?.platforms?.id === "All" ? "" : values?.platforms?.name?.toLowerCase(),
       isMap: values?.embedOption === "map" || values?.embedOption === "both",
       ...((values?.embedOption === "map" || values?.embedOption === "both") ? { highlightCountry: values?.highlightCountry?.id } : {}),
@@ -87,7 +87,7 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
   const handleFullscreen = () => {
     const iframeElement = window.frameElement || document.documentElement;
 
-    // Try to go fullscreen on the iframe or document
+   
     if (iframeElement.requestFullscreen) {
       iframeElement.requestFullscreen();
     } else if (iframeElement.webkitRequestFullscreen) {
@@ -98,13 +98,13 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
       iframeElement.msRequestFullscreen();
     }
 
-    // Then show the map modal
+    
     setIsFullscreenMap(true);
     document.body.style.overflow = 'hidden';
   };
 
   const handleCloseFullscreen = () => {
-    // Exit fullscreen
+  
     if (document.exitFullscreen) {
       document.exitFullscreen();
     } else if (document.webkitExitFullscreen) {
@@ -119,14 +119,14 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
     document.body.style.overflow = '';
   };
 
-  // Listen for fullscreen changes
+   
   useEffect(() => {
     const handleFullscreenChange = () => {
       if (!document.fullscreenElement &&
         !document.webkitFullscreenElement &&
         !document.mozFullScreenElement &&
         !document.msFullscreenElement) {
-        // User exited fullscreen (pressed ESC)
+        
         setIsFullscreenMap(false);
         document.body.style.overflow = '';
       }
@@ -150,7 +150,7 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
     reportsMutate({
       startDate: currentFilter?.startDate,
       endDate: currentFilter?.endDate,
-      // report_type: values?.impact?.name?.toLowerCase(),
+      
       platform: values?.platforms?.id === "All" ? "" : values?.platforms?.name?.toLowerCase(),
       isMap: values?.embedOption === "map" || values?.embedOption === "both",
       ...((values?.embedOption === "map" || values?.embedOption === "both") ? { highlightCountry: values?.highlightCountry?.id } : {}),
@@ -203,7 +203,7 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
               px: 2,
             }}
           >
-            {/* Left Column - Date Filter, Title, and Reports */}
+           
             {(values?.embedOption === "report" || values?.embedOption === "both") && (
               <Grid
                 item
@@ -218,12 +218,12 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
                   }
                 }}
               >
-                {/* Date Filter */}
+                
                 <Box>
                   <DateFilter onFilterChange={handleFilterChange} currentFilter={currentFilter?.type} />
                 </Box>
 
-                {/* Title */}
+                
                 <Typography
                   variant="h5"
                   sx={{
@@ -277,7 +277,7 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
               </Grid>
             )}
 
-            {/* Right Column - Map (Full Height) */}
+            
             {(values?.embedOption === "map" || values?.embedOption === "both") && (
               <Grid
                 item
@@ -286,14 +286,14 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
                 ref={mapContainerRef}
                 sx={{
                   position: 'relative',
-                  // minHeight: { xs: '300px', sm: '400px' },
+                  
                   height: {
                     lg: (values?.embedOption === "both" && resolvedWidth >= 900) ? '400px' : 'auto'
                   },
                   mt: { xs: 3, lg: (values?.embedOption === "both" && resolvedWidth >= 900) ? 0 : 3 }
                 }}
               >
-                {/* Show DateFilter and Title if only map option */}
+                
                 {values?.embedOption === "map" && (
                   <>
                     <Box mb={2}>
@@ -358,7 +358,7 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
               </Grid>
             )}
 
-            {/* Note and Logo - Full Width at Bottom */}
+            
             <Grid item xs={12} mt={1}>
               <Box
                 className="rounded-xl py-3 bg-gray-100 dark:bg-gray-700 text-center text-sm text-gray-600 dark:text-gray-300 max-w-[600px] mx-auto"
@@ -378,7 +378,7 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
           </Grid>
         </Box>
       </Box>
-      {/* Fullscreen Modal - Responsive for all devices */}
+      
       {isFullscreenMap && (
         <Box
           sx={{
@@ -389,20 +389,20 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
             bottom: 0,
             width: '100vw',
             height: '100vh',
-            maxHeight: '100vh', // Force full viewport height
-            zIndex: 2147483647, // Maximum z-index value
+            maxHeight: '100vh',  
+            zIndex: 2147483647, 
             backgroundColor: values?.colorScheme === 'dark' ? '#424242' : '#fff',
             overflow: 'hidden',
-            // Break out of iframe constraints
+            
             transform: 'translate3d(0, 0, 0)',
             WebkitTransform: 'translate3d(0, 0, 0)',
           }}
         >
-          {/* Close Button - Responsive */}
+         
           <IconButton
             onClick={handleCloseFullscreen}
             sx={{
-              position: 'fixed', // Changed to fixed
+              position: 'fixed', 
               top: { xs: '8px', sm: '10px' },
               right: { xs: '8px', sm: '10px' },
               width: { xs: 36, sm: 40 },
@@ -425,7 +425,7 @@ const AnalyticEmbed = ({ values, isEmbed, analyticData }) => {
             />
           </IconButton>
 
-          {/* Map - Full Screen Responsive */}
+         
           <Box
             sx={{
               width: '100%',

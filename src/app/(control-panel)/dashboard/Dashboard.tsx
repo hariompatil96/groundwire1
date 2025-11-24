@@ -45,20 +45,7 @@ function Dashboard() {
   return (
     <div>
       <Box sx={{ width: '100%', p: 3 }}>
-        {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Database" {...a11yProps(0)} />
-            <Tab label="Excel Sheet" {...a11yProps(1)} />
-          </Tabs>
-        </Box>
-        <CustomTabPanel value={value} index={0}>
-          <DashboardDataBase />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <DashboardSheet />
-        </CustomTabPanel> */}
-
-        {/* <LightDarkModeToggle /> */}
+        
         <DashboardDataBase />
       </Box>
     </div>
