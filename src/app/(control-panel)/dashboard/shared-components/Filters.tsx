@@ -123,14 +123,14 @@ const Filters = ({
           />
         </Grid>
 
-        {/* Campaign + Date Picker + Button */}
+        
         <Grid item xs={12} container spacing={2} alignItems="center">
           <Grid item xs={12} md={4}>
             <Controller
               name="campaigns"
               control={control}
               render={({ field }) => {
-                // compute options (ensure 'All' is first)
+                
                 const allOptions = [
                   { id: "all", name: "All" },
                   ...get(campaignList, "result.data", []),
@@ -152,7 +152,7 @@ const Filters = ({
                   );
                   const prev = field.value || [];
 
-                  // Defensive: if no clicked option (keyboard etc.)
+                  
                   if (!clicked) {
                     const filtered = (newValue || []).filter(
                       (v) => v.id !== "all"
@@ -162,7 +162,7 @@ const Filters = ({
                     return;
                   }
 
-                  // Case 1: clicked "All"
+                  
                   if (clicked.id === "all") {
                     const selectingAll = (newValue || []).some(
                       (v) => v.id === "all"
@@ -177,12 +177,12 @@ const Filters = ({
                     return;
                   }
 
-                  // Case 2: clicked a normal campaign
+                  
                   const filtered = (newValue || []).filter(
                     (v) => v.id !== "all"
                   );
 
-                  // if after this, all non-All campaigns are selected → include All
+                  
                   const allSelected = filtered.length === totalCampaigns.length;
 
                   const finalValue = allSelected

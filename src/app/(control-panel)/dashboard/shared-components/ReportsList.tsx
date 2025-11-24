@@ -16,7 +16,7 @@ interface ReportsListProps {
 const iconBgColors = {
   Spend: "#DCE6FA",
   Impressions: "#C9F0E4",
-  Views: "#E6DAFB", //
+  Views: "#E6DAFB", 
   "Professions of Faith": "#FDE3B8",
   "Cost per POF": "#D9FAED",
 };
@@ -109,11 +109,11 @@ const ReportsList: React.FC<ReportsListProps> = ({ reports }) => {
               boxShadow: "0 1px 6px rgba(0,0,0,0.1)",
               transition: "0.25s ease",
 
-              // HOVER CUSTOMIZED FOR LIGHT & DARK
+              
               "&:hover": {
                 transform: "translateY(-4px)",
 
-                // Different hover effects depending on theme mode
+                
                 ...(theme.palette.mode === "dark"
                   ? {
                       boxShadow: "0 0 12px rgba(0, 255, 200, 0.25)",

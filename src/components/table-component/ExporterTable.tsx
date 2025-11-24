@@ -23,7 +23,7 @@ const exportPdfWithCustomTitle = (columns, data, fileName, pdfTitle) => {
 };
 
 const exportToExcel = (columns, data, fileName) => {
-    const formattedData = data.map(row => {
+    const formattedData = data.map(row => {x
         const formattedRow = {};
         columns?.forEach(col => {
             formattedRow[col.title] = row[col.field];
